@@ -1,0 +1,75 @@
+<div class="product-page">
+  <div class="product-image">
+    <img src="{{product.featured_image |  image_url: width: 800 }}" alt="Product Image">
+  </div>
+  <div class="product-details">
+    <h1 class="product-title">{{ product.title }}</h1>
+    <p class="product-price">{{ product.price | money }}</p>
+    {% form 'product'
+      , product %}
+      <input
+        type="hidden"
+        name="id"
+        value="{{ product.selected_or_first_available_variant.id }}">
+      <button class="add-to-cart-btn">Add to Cart</button>
+    {% endform %}
+    <p class="">
+      {{ product.description }}
+    </p>
+  </div>
+</div>
+
+<style>
+  .product-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 900px;
+    margin: 40px auto;
+    gap: 40px;
+  }
+
+  .product-details {
+    flex: 1;
+    padding: 20px;
+  }
+
+  .product-title {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .product-price {
+    font-size: 1.5rem;
+    color: #2d2d2d;
+    margin-bottom: 24px;
+  }
+
+  .add-to-cart-btn {
+    background-color: #0070f3;
+    color: #fff;
+    border: none;
+    padding: 12px 32px;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .add-to-cart-btn:hover {
+    background-color: #005bb5;
+  }
+
+  .product-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .product-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+</style>

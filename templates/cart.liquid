@@ -1,0 +1,188 @@
+<!-- Cart Page Template -->
+
+<h1>Your Cart</h1>
+
+{% if cart.item_count == 0 %}
+  <p class="cart-empty-message">Your cart is currently empty.</p>
+  <div style="text-align: center; margin-top: 2rem;">
+    <a href="{{ routes.all_products_collection_url }}">Continue Shopping</a>
+  </div>
+{% else %}
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Qty</th>
+        <th style="text-align: right;">Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart.items %}
+        <tr>
+          <td>
+            <img
+              src="{{ item.image | img_url: 'small' }}"
+              alt="{{ item.title }}"
+              class="cart-img" />
+            <span>{{ item.product.title }}</span>
+            {% if item.variant.title != 'Default Title' %}
+              <br><small>{{ item.variant.title }}</small>
+            {% endif %}
+          </td>
+          <td>{{ item.price | money }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.line_price | money }}</td>
+          <td>
+            <a href="{{ item.url_to_remove }}">Remove</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3" class="cart-total-label">Subtotal</td>
+        <td class="cart-total-value">{{ cart.total_price | money }}</td>
+      </tr>
+    </tfoot>
+  </table>
+  <div class="cart-actions">
+    <a href="{{ routes.all_products_collection_url }}">Continue Shopping</a>
+  {% comment %}  <button type="submit" class="cart-update-btn">Update Cart</button> {% endcomment %}
+  </div>
+  <form action="/cart" method="post">
+    <div class="cart-checkout">
+      <button
+        type="submit"
+        name="checkout"
+        class="checkout-btn">Checkout</button>
+    </div>
+  </form>
+  {% comment %} 
+                                  <div class="cart-checkout">
+                                    <a href="/checkout" class="checkout-btn">Checkout</a>
+                                  </div >
+                  {% endcomment %}
+{% endif %}
+
+<style>
+  body {
+    font-family: 'Segoe UI'
+    , Arial
+    , sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    text-align: center;
+    margin-top: 2rem;
+    color: #222;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
+  }
+  .cart-empty-message {
+    color: #888;
+    font-size: 1.2rem;
+    margin: 2rem 0;
+    text-align: center;
+  }
+  .cart-table {
+    width: 90%;
+    margin: 2em auto;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .cart-table th {
+    background: #f0f4f8;
+    color: #333;
+    font-weight: 600;
+    padding: 1em;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  .cart-table td {
+    padding: 1em;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+  }
+  .cart-img {
+    width: 60px;
+    height: auto;
+    margin-right: 12px;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
+    vertical-align: middle;
+  }
+  .cart-total-label {
+    text-align: right;
+    font-weight: 600;
+    color: #444;
+    background: #f9fafb;
+    border-bottom: none;
+  }
+  .cart-total-value {
+    font-weight: 700;
+    color: #0070f3;
+    background: #f9fafb;
+    border-bottom: none;
+    text-align: right;
+  }
+  .cart-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 2em auto 0;
+    padding: 1em 0;
+  }
+  .cart-update-btn {
+    background: #0070f3;
+    color: #fff;
+    border: none;
+    padding: 0.7em 2em;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .cart-update-btn:hover {
+    background: #005bb5;
+  }
+  .cart-checkout {
+    width: 90%;
+    margin: 2em auto 0;
+    text-align: right;
+  }
+  .checkout-btn {
+    display: inline-block;
+    padding: 0.9em 2.2em;
+    background: #0070f3;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(0, 112, 243, 0.08);
+    transition: background 0.2s;
+  }
+  .checkout-btn:hover {
+    background: #005bb5;
+  }
+  button {
+    color: #0070f3;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  button:hover {
+    color: #f9fafb;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+</style>
